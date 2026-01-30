@@ -8,8 +8,8 @@ type Props = {
 
 export const CharacterFilters = ({ onFilterChange }: Props) => {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("all");
-  const [gender, setGender] = useState("all");
+  const [status, setStatus] = useState(" ");
+  const [gender, setGender] = useState(" ");
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.value.trim();
@@ -35,7 +35,7 @@ export const CharacterFilters = ({ onFilterChange }: Props) => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value=" ">All Statuses</SelectItem>
             <SelectItem value="alive">Alive</SelectItem>
             <SelectItem value="dead">Dead</SelectItem>
             <SelectItem value="unknown">Unknown</SelectItem>
@@ -49,7 +49,7 @@ export const CharacterFilters = ({ onFilterChange }: Props) => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="all">All Genders</SelectItem>
+            <SelectItem value=" ">All Genders</SelectItem>
             <SelectItem value="female">Female</SelectItem>
             <SelectItem value="male">Male</SelectItem>
             <SelectItem value="genderless">Genderless</SelectItem>

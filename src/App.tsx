@@ -11,18 +11,17 @@ export function App() {
     status: "",
     gender: "",
   });
-  const { data, isLoading, error } = useCharacters(1, filters);
+  const { data, isLoading, error } = useCharacters(filters);
 
   const onFilterChange = (newFilters: { name: string; status: string; gender: string }) => {
     setFilters(newFilters);
-    console.log(filters);
   };
 
   if (isLoading) {
     return (
       <div>
         <Header />
-        <CharacterFilters />
+        <CharacterFilters onFilterChange={onFilterChange} />
         <div>Loading...</div>
       </div>
     );
@@ -32,7 +31,7 @@ export function App() {
     return (
       <div>
         <Header />
-        <CharacterFilters />
+        <CharacterFilters onFilterChange={onFilterChange} />
         <div>Error: {error}</div>
       </div>
     );

@@ -3,9 +3,9 @@ export type Location = {
   url: string;
 };
 
-export type CharacterStatus = "Alive" | "Dead" | "Unknown";
+export type CharacterStatus = " " | "Alive" | "Dead" | "Unknown";
 
-export type CharacterGender = "Male" | "Female" | "Genderless" | "Unknown";
+export type CharacterGender = " " | "Male" | "Female" | "Genderless" | "Unknown";
 
 export type Character = {
   id: number;
