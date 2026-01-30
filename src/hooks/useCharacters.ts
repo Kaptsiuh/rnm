@@ -2,7 +2,7 @@ import { characterApi } from "@/api/characterApi";
 import type { CharacterResponse } from "@/types/character";
 import { useEffect, useState } from "react";
 
-export const useCharacters = (page = 1) => {
+export const useCharacters = (page = 1, filters) => {
   const [data, setData] = useState<CharacterResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
