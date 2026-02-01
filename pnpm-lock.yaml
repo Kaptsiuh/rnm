@@ -29,6 +29,9 @@ importers:
       react:
         specifier: ^19.2.0
         version: 19.2.4
+      react-content-loader:
+        specifier: ^7.1.2
+        version: 7.1.2(react@19.2.4)
       react-dom:
         specifier: ^19.2.0
         version: 19.2.4(react@19.2.4)
@@ -2018,6 +2021,12 @@ packages:
         optional: true
       '@types/react-dom':
         optional: true
+
+  react-content-loader@7.1.2:
+    resolution: {integrity: sha512-naFG7OERUQNPKQt1QWHyBF0/y6Zmr7dOzqjs1U5yOnu4OZmcE3+b/blp40dEKa9lvYAzOuj5dvfTK1cg5YWJkA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=18.0.0'
 
   react-dom@19.2.4:
     resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
@@ -4160,6 +4169,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.10
       '@types/react-dom': 19.2.3(@types/react@19.2.10)
+
+  react-content-loader@7.1.2(react@19.2.4):
+    dependencies:
+      react: 19.2.4
 
   react-dom@19.2.4(react@19.2.4):
     dependencies:

@@ -4,6 +4,7 @@ import { useCharacters } from "./hooks/useCharacters";
 import type { Character } from "./types/character";
 import { CharacterFilters } from "./components/CharacterFilters";
 import { useState } from "react";
+import { Skeleton } from "./components/Skeleton";
 
 export function App() {
   const [filters, setFilters] = useState({
@@ -12,6 +13,8 @@ export function App() {
     gender: "",
   });
   const { data, isLoading, error } = useCharacters(filters);
+
+  const skeletonArray = new Array(20);
 
   const onFilterChange = (newFilters: { name: string; status: string; gender: string }) => {
     setFilters(newFilters);
@@ -22,7 +25,9 @@ export function App() {
       <div>
         <Header />
         <CharacterFilters onFilterChange={onFilterChange} />
-        <div>Loading...</div>
+        {skeletonArray.map((el, index) => (
+          <Skeleton key={index} />
+        ))}
       </div>
     );
   }

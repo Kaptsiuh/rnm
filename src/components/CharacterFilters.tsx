@@ -19,7 +19,7 @@ export const CharacterFilters = ({ onFilterChange }: Props) => {
   };
 
   const onEnterChangeNameHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && onFilterChange) {
       onFilterChange({ name, status, gender });
       setName("");
     }
