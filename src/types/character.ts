@@ -7,7 +7,7 @@ export type CharacterStatus = " " | "Alive" | "Dead" | "Unknown";
 
 export type CharacterGender = " " | "Male" | "Female" | "Genderless" | "Unknown";
 
-export type Character = {
+export type CharacterType = {
   id: number;
   name: string;
   status: CharacterStatus;
@@ -29,5 +29,5 @@ export type CharacterResponse = {
     next: string | null;
     prev: string | null;
   };
-  results: Character[];
+  results: CharacterType[];
 };

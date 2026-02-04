@@ -1,12 +1,20 @@
 import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/shared/ui/card";
-import type { Character } from "@/types/character";
+import type { CharacterType } from "@/types/character";
+import { useNavigate } from "react-router";
 
 type Props = {
-  character: Character;
+  character: CharacterType;
 };
 
 export const CharacterCard = ({ character }: Props) => {
+  const navigate = useNavigate();
+
+  const onClickHandler = () => {
+    navigate(`/character/${character.id}`);
+  };
+
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
       <div className="relative">
@@ -31,6 +39,9 @@ export const CharacterCard = ({ character }: Props) => {
           <span className="text-sm font-medium text-gray-500">Gender</span>
           <span className="text-sm">{character.gender}</span>
         </div>
+        <Button variant={"outline"} className="w-full" onClick={onClickHandler}>
+          Read More
+        </Button>
       </CardContent>
     </Card>
   );

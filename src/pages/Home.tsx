@@ -3,7 +3,7 @@ import { CharacterFilters } from "@/components/CharacterFilters";
 import { Header } from "@/components/Header";
 import { Skeleton } from "@/components/Skeleton";
 import { useCharacters } from "@/hooks/useCharacters";
-import type { Character } from "@/types/character";
+import type { CharacterType } from "@/types/character";
 import { useState } from "react";
 
 export const Home = () => {
@@ -49,7 +49,7 @@ export const Home = () => {
       <main className="container mx-auto px-4 py-8">
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {data ? (
-            data.results.map((c: Character) => {
+            data.results.map((c: CharacterType) => {
               return <CharacterCard key={c.id} character={c} />;
             })
           ) : (
