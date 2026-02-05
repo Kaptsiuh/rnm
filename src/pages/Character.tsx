@@ -11,12 +11,19 @@ export const Character = () => {
   const [character, setCharacter] = useState<CharacterType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const saveHistory = (characterId: number) => {
+    const history = localStorage.getItem("history") || "[]";
+    const filteredHistory = JSON.parse(history).filter((id: number) => id !== characterId);
+    localStorage.setItem("history", JSON.stringify([characterId, ...filteredHistory]));
+  };
+
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
         const response = await characterApi.getById(id);
         setCharacter(response.data);
         setError(null);
+        saveHistory(response.data.id);
       } catch {
         setError(`Character with ID: ${id} not found!`);
       }

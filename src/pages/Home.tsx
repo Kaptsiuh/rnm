@@ -37,7 +37,7 @@ export const Home = () => {
       <div>
         <Header />
         <CharacterFilters onFilterChange={onFilterChange} />
-        <div>{error}</div>
+        <div className="text-center px-4 py-8">{error}</div>
       </div>
     );
   }
