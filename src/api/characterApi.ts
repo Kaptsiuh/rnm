@@ -5,7 +5,7 @@ const baseURL = "https://rickandmortyapi.com/api/character/";
 
 export const characterApi = {
   getAll: (querry: string = "") => {
-    return axios.get<CharacterResponse>(`${baseURL}${querry}`);
+    return axios.get<CharacterResponse>(`${baseURL}?${querry}`);
   },
   getById: (querry: string = "") => {
     return axios.get<CharacterType>(`${baseURL}${querry}`);

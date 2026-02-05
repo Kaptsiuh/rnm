@@ -25,11 +25,21 @@ export const CharacterFilters = ({ onFilterChange }: Props) => {
     }
   };
 
+  const onChangeStatusHendler = (value: string) => {
+    setStatus(value);
+    if (onFilterChange) onFilterChange({ name, status, gender });
+  };
+
+  const onChangeGenderHendler = (value: string) => {
+    setGender(value);
+    if (onFilterChange) onFilterChange({ name, status, gender });
+  };
+
   return (
     <div className="flex gap-5 container mx-auto px-4 pt-8">
       <Input placeholder="Search..." value={name} onChange={changeNameHandler} onKeyDown={onEnterChangeNameHandler} />
 
-      <Select value={status} onValueChange={setStatus}>
+      <Select value={status} onValueChange={onChangeStatusHendler}>
         <SelectTrigger className="w-full max-w-60">
           <SelectValue placeholder="All Statuses" />
         </SelectTrigger>
@@ -43,7 +53,7 @@ export const CharacterFilters = ({ onFilterChange }: Props) => {
         </SelectContent>
       </Select>
 
-      <Select value={gender} onValueChange={setGender}>
+      <Select value={gender} onValueChange={onChangeGenderHendler}>
         <SelectTrigger className="w-full max-w-60">
           <SelectValue placeholder="All Genders" />
         </SelectTrigger>
