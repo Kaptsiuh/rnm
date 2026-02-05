@@ -36,9 +36,8 @@ export const useCharacters = (filters: FiltersType) => {
 
         const response = await characterApi.getAll(queryParams.toString());
         setData(response.data);
-      } catch (error) {
+      } catch {
         setError("Failed to fetch characters");
-        console.error(error);
       } finally {
         setIsLoading(false);
       }

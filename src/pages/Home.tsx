@@ -37,7 +37,7 @@ export const Home = () => {
       <div>
         <Header />
         <CharacterFilters onFilterChange={onFilterChange} />
-        <div>Error: {error}</div>
+        <div>{error}</div>
       </div>
     );
   }
@@ -48,13 +48,9 @@ export const Home = () => {
       <CharacterFilters onFilterChange={onFilterChange} />
       <main className="container mx-auto px-4 py-8">
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {data ? (
-            data.results.map((c: CharacterType) => {
-              return <CharacterCard key={c.id} character={c} />;
-            })
-          ) : (
-            <div>Sorry... We found nothing.</div>
-          )}
+          {data?.results.map((c: CharacterType) => {
+            return <CharacterCard key={c.id} character={c} />;
+          })}
         </ul>
       </main>
     </div>

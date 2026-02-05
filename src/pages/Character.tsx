@@ -17,9 +17,8 @@ export const Character = () => {
         const response = await characterApi.getById(id);
         setCharacter(response.data);
         setError(null);
-      } catch (error) {
+      } catch {
         setError(`Character with ID: ${id} not found!`);
-        console.error(error);
       }
     };
 
@@ -30,7 +29,7 @@ export const Character = () => {
     return (
       <div className="min-h-screen">
         <Header />
-        <div className="text-red-600 text-center px-4 py-8">{error}</div>
+        <div className="text-center px-4 py-8">{error}</div>
       </div>
     );
   }
@@ -40,7 +39,6 @@ export const Character = () => {
       <Header />
       <Card className="container mx-auto my-8 py-0 grid lg:grid-cols-2 gap-10 bg-fuchsia-200">
         <img src={character.image} alt={character.name} className="w-full rounded-lg m-8" />
-
         <CardContent className="w-full rounded-lg m-8 flex flex-col gap-4">
           <CharacterProperty title="Name" value={character.name} />
           <CharacterProperty title="Status" value={character.status} />
