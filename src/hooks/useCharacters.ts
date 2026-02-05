@@ -32,7 +32,6 @@ export const useCharacters = (filters: FiltersType) => {
         if (filters.gender && filters.gender !== " ") {
           queryParams.append("gender", filters.gender);
         }
-        console.log(queryParams.toString());
 
         const response = await characterApi.getAll(queryParams.toString());
         setData(response.data);
