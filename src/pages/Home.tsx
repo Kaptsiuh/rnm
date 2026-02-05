@@ -14,44 +14,34 @@ export const Home = () => {
   });
   const { data, isLoading, error } = useCharacters(filters);
 
-  const skeletonArray = new Array(20);
+  const skeletonArray = new Array(data?.results.length);
 
   const onFilterChange = (newFilters: { name: string; status: string; gender: string }) => {
     setFilters(newFilters);
   };
-
-  if (isLoading) {
-    return (
-      <div>
-        <Header />
-        <CharacterFilters onFilterChange={onFilterChange} />
-        {skeletonArray.map((el, index) => (
-          <Skeleton key={index} />
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div>
-        <Header />
-        <CharacterFilters onFilterChange={onFilterChange} />
-        <div className="text-center px-4 py-8">{error}</div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen">
       <Header />
       <CharacterFilters onFilterChange={onFilterChange} />
       <main className="container mx-auto px-4 py-8">
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {data?.results.map((c: CharacterType) => {
-            return <CharacterCard key={c.id} character={c} />;
-          })}
-        </ul>
+        {isLoading ? (
+          <>
+            {skeletonArray.map((el, index) => (
+              <Skeleton key={index} />
+            ))}
+          </>
+        ) : error ? (
+          <div className="text-center px-4 py-8">{error}</div>
+        ) : !data ? (
+          <div className="text-center px-4 py-8">No characters found</div>
+        ) : (
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {data?.results.map((c: CharacterType) => {
+              return <CharacterCard key={c.id} character={c} />;
+            })}
+          </ul>
+        )}
       </main>
     </div>
   );
