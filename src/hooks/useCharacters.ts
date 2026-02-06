@@ -26,17 +26,26 @@ export const useCharacters = (filters: FiltersType) => {
         if (filters.name) {
           queryParams.append("name", filters.name);
         }
-        if (filters.status && filters.status !== " ") {
+        if (filters.status && filters.status.trim()) {
           queryParams.append("status", filters.status);
         }
-        if (filters.gender && filters.gender !== " ") {
+        if (filters.gender && filters.gender.trim()) {
           queryParams.append("gender", filters.gender);
         }
 
         const response = await characterApi.getAll(queryParams.toString());
         setData(response.data);
-      } catch {
-        setError("Failed to fetch characters");
+      } catch (err) {
+        if (err && typeof err === "object" && "response" in err) {
+          const errorWithResponse = err as { response?: { status?: number } };
+          if (errorWithResponse.response?.status === 404) {
+            setError("No characters found");
+          } else {
+            setError("Failed to fetch characters");
+          }
+        } else {
+          setError("Failed to fetch characters");
+        }
       } finally {
         setIsLoading(false);
       }

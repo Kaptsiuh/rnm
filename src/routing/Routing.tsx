@@ -6,7 +6,7 @@ import { Login } from "@/pages/Login";
 import { NotFound } from "@/pages/NotFound";
 import { Route, Routes } from "react-router";
 
-export const Path = {
+const Path = {
   Main: "/",
   Login: "/login",
   Character: "/character/:id",
