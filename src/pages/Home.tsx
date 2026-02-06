@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import { Skeleton } from "@/components/Skeleton";
 import { useCharacters } from "@/hooks/useCharacters";
 import type { CharacterType } from "@/types/character";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export const Home = () => {
   const [filters, setFilters] = useState({
@@ -16,14 +16,14 @@ export const Home = () => {
 
   const skeletonArray = new Array(data?.results.length);
 
-  const onFilterChange = (newFilters: { name: string; status: string; gender: string }) => {
+  const onFilterChange = useCallback((newFilters: { name: string; status: string; gender: string }) => {
     setFilters(newFilters);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen">
       <Header />
-      <CharacterFilters onFilterChange={onFilterChange} />
+      <CharacterFilters filters={filters} onFilterChange={onFilterChange} />
       <main className="container mx-auto px-4 py-8">
         {isLoading ? (
           <>

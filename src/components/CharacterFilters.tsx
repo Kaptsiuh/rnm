@@ -1,45 +1,49 @@
 import { Input } from "@/shared/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
-import { useState, type ChangeEvent, type KeyboardEvent } from "react";
+import { type ChangeEvent } from "react";
 
 type Props = {
+  filters: {
+    name: string;
+    status: string;
+    gender: string;
+  };
   onFilterChange?: (filters: { name: string; status: string; gender: string }) => void;
 };
 
-export const CharacterFilters = ({ onFilterChange }: Props) => {
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState(" ");
-  const [gender, setGender] = useState(" ");
-
+export const CharacterFilters = ({ filters, onFilterChange }: Props) => {
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.currentTarget.value.trim();
-    if (newValue) {
-      setName(newValue);
+    if (onFilterChange) {
+      onFilterChange({
+        ...filters,
+        name: e.currentTarget.value,
+      });
     }
   };
 
-  const onEnterChangeNameHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && onFilterChange) {
-      onFilterChange({ name, status, gender });
-      setName("");
+  const onChangeStatusHandler = (value: string) => {
+    if (onFilterChange) {
+      onFilterChange({
+        ...filters,
+        status: value,
+      });
     }
   };
 
-  const onChangeStatusHendler = (value: string) => {
-    setStatus(value);
-    if (onFilterChange) onFilterChange({ name, status, gender });
-  };
-
-  const onChangeGenderHendler = (value: string) => {
-    setGender(value);
-    if (onFilterChange) onFilterChange({ name, status, gender });
+  const onChangeGenderHandler = (value: string) => {
+    if (onFilterChange) {
+      onFilterChange({
+        ...filters,
+        gender: value,
+      });
+    }
   };
 
   return (
     <div className="flex gap-5 container mx-auto px-4 pt-8">
-      <Input placeholder="Search..." value={name} onChange={changeNameHandler} onKeyDown={onEnterChangeNameHandler} />
+      <Input placeholder="Search..." value={filters.name} onChange={changeNameHandler} />
 
-      <Select value={status} onValueChange={onChangeStatusHendler}>
+      <Select value={filters.status} onValueChange={onChangeStatusHandler}>
         <SelectTrigger className="w-full max-w-60">
           <SelectValue placeholder="All Statuses" />
         </SelectTrigger>
@@ -53,7 +57,7 @@ export const CharacterFilters = ({ onFilterChange }: Props) => {
         </SelectContent>
       </Select>
 
-      <Select value={gender} onValueChange={onChangeGenderHendler}>
+      <Select value={filters.gender} onValueChange={onChangeGenderHandler}>
         <SelectTrigger className="w-full max-w-60">
           <SelectValue placeholder="All Genders" />
         </SelectTrigger>
