@@ -1,5 +1,7 @@
 import { Input } from "@/shared/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import { useAppDispatch } from "@/store/hooks";
+import { updateFilters } from "@/store/slices/characterSlice";
 import { type ChangeEvent } from "react";
 
 type Props = {
@@ -8,35 +10,22 @@ type Props = {
     status: string;
     gender: string;
   };
-  onFilterChange?: (filters: { name: string; status: string; gender: string }) => void;
+  onFilterChange: (newFilters: { name: string; status: string; gender: string }) => void;
 };
 
-export const CharacterFilters = ({ filters, onFilterChange }: Props) => {
+export const CharacterFilters = ({ filters }: Props) => {
+  const dispatch = useAppDispatch();
+
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (onFilterChange) {
-      onFilterChange({
-        ...filters,
-        name: e.currentTarget.value,
-      });
-    }
+    dispatch(updateFilters({ key: "name", value: e.currentTarget.value }));
   };
 
   const onChangeStatusHandler = (value: string) => {
-    if (onFilterChange) {
-      onFilterChange({
-        ...filters,
-        status: value,
-      });
-    }
+    dispatch(updateFilters({ key: "status", value }));
   };
 
   const onChangeGenderHandler = (value: string) => {
-    if (onFilterChange) {
-      onFilterChange({
-        ...filters,
-        gender: value,
-      });
-    }
+    dispatch(updateFilters({ key: "gender", value }));
   };
 
   return (

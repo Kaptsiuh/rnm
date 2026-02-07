@@ -3,6 +3,9 @@ import { CharacterProperty } from "@/components/CharacterProperty";
 import { Header } from "@/components/Header";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleFavorite } from "@/store/slices/favoritesSlice";
+import { addToHistory } from "@/store/slices/historySlice";
 import type { CharacterType } from "@/types/character";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -12,59 +15,33 @@ export const Character = () => {
   const { id } = useParams<{ id: string }>();
   const [character, setCharacter] = useState<CharacterType | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const { favorites } = useAppSelector((state) => state.favorites);
+  const isLiked = favorites.includes(character?.id || 0);
 
   const navigate = useNavigate();
 
-  const getFavorites = () => {
-    try {
-      const favorites = localStorage.getItem("favorites");
-      if (!favorites) return [];
-      return JSON.parse(favorites);
-    } catch {
-      return [];
-    }
-  };
-
-  const saveHistory = (characterId: number) => {
-    const history = localStorage.getItem("history") || "[]";
-    const filteredHistory = JSON.parse(history).filter((id: number) => id !== characterId);
-    localStorage.setItem("history", JSON.stringify([characterId, ...filteredHistory]));
-  };
-
   useEffect(() => {
-    const fetchCharacters = async () => {
+    const featchCharacter = async () => {
       try {
         const response = await characterApi.getById(id);
-        setCharacter(response.data);
+        const characterData = response.data;
+        setCharacter(characterData);
         setError(null);
-        saveHistory(response.data.id);
-        setIsLiked(getFavorites().includes(response.data.id));
+
+        dispatch(addToHistory(characterData.id));
       } catch {
         setError(`Character with ID: ${id} not found!`);
       }
     };
 
-    fetchCharacters();
-  }, [id]);
+    featchCharacter();
+  }, [id, dispatch]);
 
   const changeFavoriteStatus = () => {
     if (!character) return;
-
-    try {
-      let favorites = getFavorites();
-      if (isLiked) {
-        favorites = favorites.filter((id: number) => id !== character.id);
-      } else {
-        favorites.push(character.id);
-      }
-
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-      setIsLiked(!isLiked);
-      setError(null);
-    } catch {
-      setError("Error with updating favorites");
-    }
+    dispatch(toggleFavorite(character.id));
   };
 
   return (

@@ -1,9 +1,10 @@
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/shared/ui/card";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleFavorite } from "@/store/slices/favoritesSlice";
 import type { CharacterType } from "@/types/character";
 import { Heart } from "lucide-react";
-import { useState } from "react";
 import { useNavigate } from "react-router";
 
 type Props = {
@@ -13,37 +14,16 @@ type Props = {
 
 export const CharacterCard = ({ character, changeStatus }: Props) => {
   const navigate = useNavigate();
-
-  const getFavorites = () => {
-    try {
-      const favorites = localStorage.getItem("favorites");
-      if (!favorites) return [];
-      return JSON.parse(favorites);
-    } catch {
-      return [];
-    }
-  };
-
-  const [isLiked, setIsLiked] = useState(() => {
-    return getFavorites().includes(character.id);
-  });
+  const dispatch = useAppDispatch();
+  const { favorites } = useAppSelector((state) => state.favorites);
+  const isLiked = favorites.includes(character.id);
 
   const onClickHandler = () => {
     navigate(`/character/${character.id}`);
   };
 
   const handleLikeClick = () => {
-    let favorites = getFavorites();
-
-    if (isLiked) {
-      favorites = favorites.filter((id: number) => id !== character.id);
-    } else {
-      favorites.push(character.id);
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-
-    setIsLiked(!isLiked);
+    dispatch(toggleFavorite(character.id));
     if (changeStatus) {
       changeStatus();
     }

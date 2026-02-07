@@ -4,36 +4,37 @@ import { Header } from "@/components/Header";
 import { Pagination } from "@/components/Pagination";
 import { Skeleton } from "@/components/Skeleton";
 import { useCharacters } from "@/hooks/useCharacters";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setFilters } from "@/store/slices/characterSlice";
 import type { CharacterType } from "@/types/character";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 export const Home = () => {
-  const [filters, setFilters] = useState({
-    name: "",
-    status: "",
-    gender: "",
-    page: 1,
-  });
+  const dispatch = useAppDispatch();
+  const { filters, data, isLoading, error } = useAppSelector((state) => state.character);
 
-  const { data, isLoading, error } = useCharacters(filters);
+  useCharacters();
 
-  const skeletonArray = new Array(data?.results.length);
-
-  const onFilterChange = useCallback((newFilters: { name: string; status: string; gender: string }) => {
-    setFilters(() => ({ ...newFilters, page: 1 }));
-  }, []);
+  const onFilterChange = useCallback(
+    (newFilters: { name: string; status: string; gender: string }) => {
+      dispatch(setFilters({ ...newFilters, page: 1 }));
+    },
+    [dispatch],
+  );
 
   const handleNextPage = () => {
-    if (data?.info.next) {
-      setFilters((prev) => ({ ...prev, page: prev.page + 1 }));
+    if (data?.info?.next) {
+      dispatch(setFilters({ ...filters, page: filters.page + 1 }));
     }
   };
 
   const handlePrevPage = () => {
-    if (data?.info.prev) {
-      setFilters((prev) => ({ ...prev, page: prev.page - 1 }));
+    if (data?.info?.prev) {
+      dispatch(setFilters({ ...filters, page: filters.page - 1 }));
     }
   };
+
+  const skeletonArray = new Array(data?.results.length);
 
   return (
     <div className="min-h-screen">
@@ -50,9 +51,9 @@ export const Home = () => {
           <div className="text-center px-4 py-8">{error}</div>
         ) : (
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {data?.results.map((c: CharacterType) => {
-              return <CharacterCard key={c.id} character={c} />;
-            })}
+            {data?.results.map((c: CharacterType) => (
+              <CharacterCard key={c.id} character={c} />
+            ))}
           </ul>
         )}
         <Pagination page={filters.page} handlePrevPage={handlePrevPage} handleNextPage={handleNextPage} />
