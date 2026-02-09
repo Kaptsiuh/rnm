@@ -1,8 +1,14 @@
+import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/shared/ui/button";
+import { useAppDispatch } from "@/store/hooks";
+import { removeUser } from "@/store/slices/userSlice";
 import { useNavigate } from "react-router";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { isAuth } = useAuth();
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className="sticky flex justify-center border-b bg-background/95 backdrop-blur ">
@@ -20,10 +26,15 @@ export const Header = () => {
           <Button variant="link" onClick={() => navigate("/favorites")}>
             Favorites
           </Button>
-          <Button variant="default" onClick={() => navigate("/login")}>
-            Log In
-          </Button>
-          <Button variant="default">Log Out</Button>
+          {isAuth ? (
+            <Button variant="default" onClick={() => dispatch(removeUser())}>
+              Sign Out
+            </Button>
+          ) : (
+            <Button variant="default" onClick={() => navigate("/login")}>
+              Sign In
+            </Button>
+          )}
         </div>
       </div>
     </div>
